@@ -25,5 +25,4 @@ class Test(TestCase):
         assert rows == lines
 
     def test_analyze(self):
-        pass    
-
+        pass

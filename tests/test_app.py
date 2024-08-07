@@ -5,7 +5,6 @@ Author: Wolf Paulus (wolf@paulus.com)
 
 from unittest import TestCase
 from streamlit.testing.v1 import AppTest
-from app import ui
 
 
 class Test(TestCase):
@@ -19,5 +18,6 @@ class Test(TestCase):
         at.run()
 
         assert at.title[0].value.startswith("Automatic Investing")
-        assert at.subheader[0].value.startswith("Comparing Investing Strategies")
+        assert at.subheader[0].value.startswith(
+            "Comparing Investing Strategys")
         assert not at.exception
