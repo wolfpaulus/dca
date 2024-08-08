@@ -17,19 +17,19 @@ def ui() -> None:
     ).upper()
     st.write(
         """
-             Automatic investing is a strategy for steadily building wealth,
-             often implemented through Dollar Cost Averaging (DCA).
-             This approach involves investing a fixed dollar amount at regular intervals,
-             allowing investors to buy more shares when prices are low and fewer shares
-             when prices are high.
-             Alternatively, investors can opt to buy a fixed quantity of shares at regular
-             intervals. Here we simulate both strategies using five years of
-             historical stock market data, provided by Yahoo Finance.
-             """
+        Automatic investing is a strategy for steadily building wealth,
+        often implemented through Dollar Cost Averaging (DCA).
+        This approach involves investing a fixed dollar amount at regular intervals,
+        allowing investors to buy more shares when prices are low and fewer shares
+        when prices are high.
+        Alternatively, investors can opt to buy a fixed quantity of shares at regular
+        intervals. Here we simulate both strategies using five years of
+        historical stock market data, provided by Yahoo Finance.
+        """
     )
     ok, csv = download_data(ticker)
     if not ok:
-        st.write(csv)
+        st.error(str(csv), icon="💣")
     else:
         df = analyze(csv_to_dataframe(csv))
         st.caption(f"If you had bought share of {ticker} every week ...")

@@ -1,0 +1,25 @@
+version: 1
+formatters:
+  simple:
+    formatter: logging.Formatter
+    fmt: "%(name)-12s %(asctime)s %(levelname)-8s %(filename)s:%(funcName)s %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+  std_out:
+    format: "%(levelname)s : %(module)s : %(funcName)s : %(message)s"
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: "ext://sys.stdout"
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: std_out
+    filename: "app.log"
+    maxBytes: 10000
+    backupCount: 10
+loggers:
+  foo_logger:
+    level: DEBUG
+    handlers: [ console, file ]

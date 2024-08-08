@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from calendar import timegm
 from io import StringIO
 from pandas import read_csv, DataFrame, to_datetime
-
+from log import logger
 
 def download_data(ticker: str) -> tuple[bool, str]:
     """
@@ -30,6 +30,7 @@ def download_data(ticker: str) -> tuple[bool, str]:
         epoch_from}&period2={epoch_to}&interval=1d&events=history&includeAdjustedClose=true"
 
     try:
+        logger.debug(f"Downloading data for ticker: {ticker}")
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "*/*",
@@ -40,8 +41,10 @@ def download_data(ticker: str) -> tuple[bool, str]:
             if response.getcode() == 200:
                 return True, response.read().decode("utf-8")
             else:
+                logger.warn(f"{response.geterror()} {response.getcode()}")
                 return False, f"{response.geterror()} {response.getcode()}"
     except Exception as e:
+        logger.error(f"This error occurred: {e}")
         return False, f"An error occurred: {e}"
 
 
