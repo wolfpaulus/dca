@@ -2,13 +2,13 @@
     Using Pandas to compare Investing Strategies
     Wolf Paulus
 """
-
 from urllib.request import Request, urlopen
 from datetime import datetime, timedelta
 from calendar import timegm
 from io import StringIO
 from pandas import read_csv, DataFrame, to_datetime
 from log import logger
+
 
 def download_data(ticker: str) -> tuple[bool, str]:
     """
