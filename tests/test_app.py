@@ -19,5 +19,5 @@ class Test(TestCase):
 
         assert at.title[0].value.startswith("Automatic Investing")
         assert at.subheader[0].value.startswith(
-            "Comparing Investing Strategys")
+            "Comparing Investing Strategies")
         assert not at.exception
