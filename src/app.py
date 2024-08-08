@@ -17,13 +17,13 @@ def ui() -> None:
     )
     st.write(
         """
-             Automatic investing is a strategy for steadily building wealth, 
-             often implemented through Dollar Cost Averaging (DCA). 
-             This approach involves investing a fixed dollar amount at regular intervals, 
-             allowing investors to buy more shares when prices are low and fewer shares 
-             when prices are high. 
-             Alternatively, investors can opt to buy a fixed quantity of shares at regular 
-             intervals. Here we simulate both strategies using five years of 
+             Automatic investing is a strategy for steadily building wealth,
+             often implemented through Dollar Cost Averaging (DCA).
+             This approach involves investing a fixed dollar amount at regular intervals,
+             allowing investors to buy more shares when prices are low and fewer shares
+             when prices are high.
+             Alternatively, investors can opt to buy a fixed quantity of shares at regular
+             intervals. Here we simulate both strategies using five years of
              historical stock market data, provided by Yahoo Finance.
              """
     )

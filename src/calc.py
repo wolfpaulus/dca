@@ -1,4 +1,4 @@
-""" 
+"""
     Using Pandas to compare Investing Strategies
     Wolf Paulus
 """
@@ -26,7 +26,8 @@ def download_data(ticker: str) -> tuple[bool, str]:
     today = datetime.now()
     epoch_from = timegm((today - timedelta(days=5 * 365)).timetuple())
     epoch_to = timegm(today.timetuple())
-    url = f"https://query1.finance.yahoo.com/v7/finance/download/{ticker}?period1={epoch_from}&period2={epoch_to}&interval=1d&events=history&includeAdjustedClose=true"
+    url = f"https://query1.finance.yahoo.com/v7/finance/download/{ticker}?period1={
+        epoch_from}&period2={epoch_to}&interval=1d&events=history&includeAdjustedClose=true"
 
     try:
         headers = {
