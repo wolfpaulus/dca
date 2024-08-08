@@ -4,7 +4,7 @@
 
 name: Build, test, and deploy a Python app to Azure Web App
 env:
-  AZURE_WEBAPP_NAME: "webApp-emsdegnzr5u4q" # <<< Azure Web App name
+  AZURE_WEBAPP_NAME: "webApp-rh5dsxbm77scq" # <<< Azure Web App name
   PYTHON_VERSION: "3.12"
 
 on:
