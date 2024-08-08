@@ -2,7 +2,6 @@
     Streamlit UI for the Automatic Investing project.
     Author: Wolf Paulus
 """
-
 import streamlit as st
 from calc import download_data, csv_to_dataframe, analyze
 

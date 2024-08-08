@@ -8,7 +8,6 @@ from sys import stdout, stderr
 import logging.config
 import yaml  # PyYAML
 
-
 try:
     with open('./src/logconfig.yaml', 'r') as f:
         config = yaml.safe_load(f.read())
