@@ -14,7 +14,7 @@ def ui() -> None:
         "Enter a Ticker Symbol (e.g. for Cloudflare, Inc., enter NET, for Apple Inc., enter AAPL, etc.)",
         "NET",
         autocomplete="off",
-    )
+    ).upper()
     st.write(
         """
              Automatic investing is a strategy for steadily building wealth,
