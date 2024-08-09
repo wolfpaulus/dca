@@ -28,7 +28,7 @@ def ui() -> None:
     )
     ok, csv = download_data(ticker)
     if not ok:
-        st.error(str(csv), icon="💣")
+        st.error(f"{csv} : {ticker}", icon="💣")
     else:
         df = analyze(csv_to_dataframe(csv))
         st.caption(f"If you had bought share of {ticker} every week ...")

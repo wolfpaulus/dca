@@ -44,7 +44,7 @@ def download_data(ticker: str) -> tuple[bool, str]:
                 logger.warn(f"{response.geterror()} {response.getcode()}")
                 return False, f"{response.geterror()} {response.getcode()}"
     except Exception as e:
-        logger.error(f"This error occurred: {e}")
+        logger.error(f"This error occurred: {e} : {ticker}")
         return False, f"An error occurred: {e}"
 
 
