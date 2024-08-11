@@ -1,0 +1,55 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+# Your sources need to be in the "./src" folder, your tests in the "./tests" folder
+
+name: run-tests
+env:
+  PYTHON_VERSION: "3.12"
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    env:
+      PYTHONPATH: "./src"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Install dependencies
+        run: |
+          pip install -r tests/requirements.txt
+          pip install -r ./requirements.txt
+
+      - name: Lint with autopep8
+        run: |
+          autopep8 --exit-code --recursive --diff --aggressive ./src
+
+      - name: Fail if autopep8 made changes
+        if: ${{ failure() }}
+        run: exit 1
+
+      - name: Test with pytest
+        run: pytest
+
+      - name: Fail if tests failed
+        if: ${{ failure() }}
+        run: exit 1

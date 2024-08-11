@@ -2,14 +2,16 @@
 # This workflow assumes you have already created the target Azure App Service web app and a repository secret AZURE_WEBAPP_PUBLISH_PROFILE exists, containing the app's Publish Profile.
 # Make your the AZURE_WEBAPP_NAME environment variable below, contains the web app's name.
 
-name: Build, test, and deploy a Python app to Azure Web App
+name: azure-publish
 env:
   AZURE_WEBAPP_NAME: "webApp-rh5dsxbm77scq" # <<< Azure Web App name
   PYTHON_VERSION: "3.12"
 
 on:
-  push:
-    branches: ["main"]
+  workflow_run:
+    workflows: [ run-tests ]
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -21,37 +23,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python version
-        uses: actions/setup-python@v5.1.0
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-          cache: "pip"
-
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-
-      - name: Install dependencies
-        run: |
-          pip install -r tests/requirements.txt
-          pip install -r ./requirements.txt
-
-      - name: Lint with autopep8
-        run: |
-          autopep8 --exit-code --recursive --diff --aggressive ./src
-  
-      - name: Fail if autopep8 made changes
-        if: steps.autopep8.outputs.exit-code == 2
-        run: exit 1
-
-      - name: Test with pytest
-        run: pytest
-
-      - name: Fail if tests failed
-        if: ${{ failure() && steps.test_step.outcome == 'failure' }}
-        run: exit 1
-
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
