@@ -1,8 +1,10 @@
-# This workflow will build and push a Python application to an Azure Web App when a commit is pushed to your default branch.
-# This workflow assumes you have already created the target Azure App Service web app and a repository secret AZURE_WEBAPP_PUBLISH_PROFILE exists, containing the app's Publish Profile.
-# Make your the AZURE_WEBAPP_NAME environment variable below, contains the web app's name.
+# This workflow will deploy a Python application to an Azure Web App when a commit is pushed AND linting and testing passed.
+# This workflow assumes you have 
+# - already created the target Azure App Service web app 
+# - a repository secret AZURE_WEBAPP_PUBLISH_PROFILE exists, containing the app's Publish Profile.
+# - the AZURE_WEBAPP_NAME environment variable below, contains the web app's name.
 
-name: azure-publish
+name: azure-deploy
 env:
   AZURE_WEBAPP_NAME: "webApp-rh5dsxbm77scq" # <<< Azure Web App name
   PYTHON_VERSION: "3.12"

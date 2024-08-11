@@ -67,7 +67,7 @@ def ui() -> None:
         st.write(
             """
             This program is for educational purposes only and does not constitute investment advice.\n
-            © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
+            Version 1.0 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
             """
         )
 

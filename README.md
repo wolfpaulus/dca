@@ -1,10 +1,10 @@
 # Using Pandas and Streamlit to compare Investing Strategies
 
 ### Status ..
-![License](https://img.shields.io/badge/License-MIT-green.svg)  
-![build_deploy.yml](https://github.com/wolfpaulus/dca/actions/workflows/build_deploy.yml/badge.svg)  
-![WebService](https://img.shields.io/website?down_color=red&down_message=offline&style=plastic&up_color=green&up_message=online&url=https://img.shields.io/website/https/webapp-rh5dsxbm77scq.azurewebsites.net.health.svg)  
 
+![azure-deploy.yml](https://github.com/wolfpaulus/dca/actions/workflows/azure-deploy.yml/badge.svg)  
+![WebService](https://img.shields.io/website?down_color=red&down_message=offline&style=plastic&up_color=green&up_message=online&url=https://img.shields.io/website/https/webapp-rh5dsxbm77scq.azurewebsites.net.health.svg) <https://webapp-rh5dsxbm77scq.azurewebsites.net>  
+![License](https://img.shields.io/badge/License-MIT-green.svg)  
 ## Overview
 
 Automatic investing is a strategy that can help individuals build wealth steadily over time. One common approach is **Dollar Cost Averaging (DCA)**, which involves investing a fixed dollar amount at regular intervals, regardless of the asset's price. This method results in buying more shares when prices are low and fewer shares when prices are high. Another approach is to **buy a fixed number of shares at regular intervals**.
