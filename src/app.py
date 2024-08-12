@@ -26,8 +26,7 @@ def ui() -> None:
         historical stock market data, provided by Yahoo Finance.
         """
     )
-    X = 1
-    ok, csv = download_data(   ticker)
+    ok, csv = download_data(ticker)
     if not ok:
         st.error(f"{csv} : {ticker}", icon="💣")
     else:
