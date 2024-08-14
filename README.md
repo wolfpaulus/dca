@@ -1,10 +1,11 @@
 # Using Pandas and Streamlit to compare Investing Strategies
 
-### Status ..
+[![run-tests](https://github.com/wolfpaulus/dca/actions/workflows/python-test.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/python-test.yml)
+[![azure-deploy](https://github.com/wolfpaulus/dca/actions/workflows/azure-deploy.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/azure-deploy.yml)
+[![docker-publish](https://github.com/wolfpaulus/dca/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/docker-publish.yml)
+[![Uptime Robot status](https://img.shields.io/uptimerobot/status/m797374860-3b534eea99094adbd62aa357)](https://dca.techcasitaproductions.com)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-![azure-deploy.yml](https://github.com/wolfpaulus/dca/actions/workflows/azure-deploy.yml/badge.svg)  
-![WebService](https://img.shields.io/website?down_color=red&down_message=offline&style=plastic&up_color=green&up_message=online&url=https://img.shields.io/website/https/webapp-rh5dsxbm77scq.azurewebsites.net.health.svg) <https://webapp-rh5dsxbm77scq.azurewebsites.net>  
-![License](https://img.shields.io/badge/License-MIT-green.svg)  
 ## Overview
 
 Automatic investing is a strategy that can help individuals build wealth steadily over time. One common approach is **Dollar Cost Averaging (DCA)**, which involves investing a fixed dollar amount at regular intervals, regardless of the asset's price. This method results in buying more shares when prices are low and fewer shares when prices are high. Another approach is to **buy a fixed number of shares at regular intervals**.
@@ -44,3 +45,10 @@ For DCA, the program calculates the total amount invested in the SQ strategy (`I
 ## Visualization
 
 Finally, a line chart is generated to show the performance of both strategies over time. This visualization allows users to compare the growth of their investments under each approach, providing a clear picture of how different strategies can impact wealth accumulation.
+
+![](./instructions/app.png)
+
+## Deployment / CICD
+
+The app is currently deployed on [Azure](https://webapp-rh5dsxbm77scq.azurewebsites.net) as well as on a [linux server](https://dca.techcasitaproductions.com) as a docker container.
+The [instructions directory](./instructions/action.png) contains more details about the deployment workflows.

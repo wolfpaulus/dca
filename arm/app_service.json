@@ -83,7 +83,7 @@
               "name": "ENABLE_ORYX_BUILD",
               "value": "true"
             },
-            { 
+            {
               "name": "WEBSITE_WEBDEPLOY_USE_SCM",
               "value": "true"
             }
