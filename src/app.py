@@ -7,13 +7,16 @@ from calc import download_data, csv_to_dataframe, analyze
 
 
 def ui() -> None:
+    st.set_page_config(
+        page_title="Automatic Investing",
+        page_icon=":money_with_wings:"
+    )
     st.title("Automatic Investing: A Path to Wealth Building Over Time")
     st.subheader("Comparing Investing Strategies over a 5 year term")
     ticker = st.text_input(
         "Enter a Ticker Symbol (e.g. for Cloudflare, Inc., enter NET, for Apple Inc., enter AAPL, etc.)",
         "NET",
-        autocomplete="off",
-    ).upper()
+        autocomplete="off").upper()
     st.write(
         """
         Automatic investing is a strategy for steadily building wealth,
@@ -67,7 +70,7 @@ def ui() -> None:
         st.write(
             """
             This program is for educational purposes only and does not constitute investment advice.\n
-            Version 1.0 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
+            Version 1.1 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
             """
         )
 
