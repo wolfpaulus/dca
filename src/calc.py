@@ -51,6 +51,8 @@ def download_data(ticker: str) -> tuple[bool, str]:
 def csv_to_dataframe(csv: str) -> DataFrame:
     """
     Convert a CSV string to a DataFrame, also removing not needed columns.
+    Original columns: Date, Open, High, Low, Close, Adj Close, Volume
+    Remaining columns: Date, Adj Close
     Args:
         csv: str - The CSV string.
 
@@ -80,14 +82,19 @@ def analyze(df: DataFrame) -> DataFrame:
     df = df[(df.shift(1).Weekday > df.Weekday)]
 
     # Strategy: Fixed share number (1 share per week)
+    # Shares FQ: Shares bought with a fixed quantity
+    # Invested FQ: Money invested with a fixed quantity
+    # Value FQ: Value of the investment with a fixed quantity
     df["Shares FQ"] = 1
     df["Shares FQ"] = df["Shares FQ"].cumsum()
     df["Invested FQ"] = df["Adj Close"].cumsum()
     df["Value FQ"] = df["Shares FQ"] * df["Adj Close"]
 
     # Strategy: Fixed weekly amount
+    # Shares DCA: Shares bought with a fixed weekly amount
+    # Invested DCA: Money invested with a fixed weekly amount
+    # Value DCA: Value of the investment with a fixed weekly amount
     wa = df.iloc[-1]["Invested FQ"] / df.iloc[-1]["Shares FQ"]  # Weekly amount
-
     df["Shares DCA"] = (wa / df["Adj Close"]).cumsum()
     df["Invested DCA"] = wa
     df["Invested DCA"] = df["Invested DCA"].cumsum()
