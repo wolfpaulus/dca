@@ -7,7 +7,7 @@ RUN apt-get update && \
     ln -fs /usr/share/zoneinfo/America/Phoenix /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
 
-COPY .streamlit, src, healthcheck.sh, requirements.txt /dca/
+COPY ./.streamlit ./src ./healthcheck.sh ./requirements.txt /dca/
 RUN pip install --no-cache-dir --upgrade -r /dca/requirements.txt
 RUN chmod +x /dca/healthcheck.sh
 WORKDIR /dca/
