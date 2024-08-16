@@ -7,7 +7,7 @@ RUN apt-get update && \
     ln -fs /usr/share/zoneinfo/America/Phoenix /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
 
-COPY ./.streamlit ./src ./healthcheck.sh ./requirements.txt /dca/
+COPY . /dca
 RUN pip install --no-cache-dir --upgrade -r /dca/requirements.txt
 RUN chmod +x /dca/healthcheck.sh
 WORKDIR /dca/
@@ -18,5 +18,5 @@ EXPOSE 8000
 #  ensures that the python output is sent straight to terminal (e.g. the container log) without being first buffered
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/dca/src
+ENV PYTHONPATH=/dca
 CMD ["python3.12",  "-m", "streamlit", "run", "--server.port", "8000", "src/app.py"]
