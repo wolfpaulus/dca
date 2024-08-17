@@ -42,3 +42,4 @@ def test_analyze(csv):
     df["delta"] = df["d1"] - df["d0"]
     print(df["delta"].max().days)
     assert df["delta"].max().days < 13
+    assert df["delta"].min().days > 2

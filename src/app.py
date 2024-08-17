@@ -3,10 +3,16 @@
     Author: Wolf Paulus
 """
 import streamlit as st
+from log import logger
 from calc import download_data, csv_to_dataframe, analyze
 
 
-def ui() -> None:
+def ui(default_ticker: str) -> None:
+    """
+    Streamlit UI for the Automatic Investing project.
+    :param default_ticker: str
+    :return: None
+    """
     st.set_page_config(
         page_title="Automatic Investing",
         page_icon=":money_with_wings:"
@@ -15,7 +21,7 @@ def ui() -> None:
     st.subheader("Comparing Investing Strategies over a 5 year term")
     ticker = st.text_input(
         "Enter a Ticker Symbol (e.g. for Cloudflare, Inc., enter NET, for Apple Inc., enter AAPL, etc.)",
-        "NET",
+        default_ticker,
         autocomplete="off").upper()
     st.write(
         """
@@ -41,31 +47,35 @@ def ui() -> None:
             df, x="Date", y=["Invested FQ", "Value FQ", "Invested DCA", "Value DCA"]
         )
         row = df[:].iloc[-1]
-        with open("src/result.md", "r") as f:
-            # injecting the result into the markdown file
-            md = f.read()
-            st.markdown(
-                md.format(
-                    ticker=ticker,
-                    sq_shares=row["Shares FQ"],
-                    sq_invested=row["Invested FQ"],
-                    sq_value=row["Value FQ"],
-                    sq_gain=row["Value FQ"] - row["Invested FQ"],
-                    sq_annual=(row["Value FQ"] - row["Invested FQ"])
-                    / row["Invested FQ"]
-                    * 100
-                    / 5,
-                    wa=row["Invested FQ"] / row["Shares FQ"],
-                    dca_shares=row["Shares DCA"],
-                    dca_invested=row["Invested DCA"],
-                    dca_value=row["Value DCA"],
-                    dca_gain=row["Value DCA"] - row["Invested DCA"],
-                    dca_annual=(row["Value DCA"] - row["Invested DCA"])
-                    / row["Invested DCA"]
-                    * 100
-                    / 5,
+        try:
+            with open("src/result.md", "r") as f:
+                # injecting the result into the markdown file
+                md = f.read()
+                st.markdown(
+                    md.format(
+                        ticker=ticker,
+                        sq_shares=row["Shares FQ"],
+                        sq_invested=row["Invested FQ"],
+                        sq_value=row["Value FQ"],
+                        sq_gain=row["Value FQ"] - row["Invested FQ"],
+                        sq_annual=(row["Value FQ"] - row["Invested FQ"])
+                        / row["Invested FQ"]
+                        * 100
+                        / 5,
+                        wa=row["Invested FQ"] / row["Shares FQ"],
+                        dca_shares=row["Shares DCA"],
+                        dca_invested=row["Invested DCA"],
+                        dca_value=row["Value DCA"],
+                        dca_gain=row["Value DCA"] - row["Invested DCA"],
+                        dca_annual=(row["Value DCA"] - row["Invested DCA"])
+                        / row["Invested DCA"]
+                        * 100
+                        / 5,
+                    )
                 )
-            )
+        except OSError as err:
+            logger.error(f"Error: {err}")
+            st.error(f"Error: {err}")
         st.divider()
         st.write(
             """
@@ -76,4 +86,4 @@ def ui() -> None:
 
 
 if __name__ == "__main__":
-    ui()
+    ui(default_ticker="NET")
