@@ -4,12 +4,12 @@ The configuration file 'logconfig.yaml' is in YAML format and is loaded using th
 It specifies the loggers, handlers, and formatters. The loggers are named 'foo_logger' and 'bar_logger'.
 Author: Wolf Paulus (wolf@paulus.com)
 """
-from sys import stdout, stderr
+from sys import stderr
 import logging.config
 import yaml  # PyYAML
 
 try:
-    with open('./src/logconfig.yaml', 'r') as f:
+    with open('src/logconfig.yaml', 'r') as f:
         config = yaml.safe_load(f.read())
         logging.config.dictConfig(config)
         logger = logging.getLogger("foo_logger")
