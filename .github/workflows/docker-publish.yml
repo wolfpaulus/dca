@@ -34,6 +34,9 @@ jobs:
     steps:
       - name: Set up QEMU # do this if you need to build multi-arch images
         uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx # do this if you need to build multi-arch images
+        uses: docker/setup-buildx-action@v3        
 
       - name: Setting environment variables and converting IMAGE_NAME to lowercase
         run: |
