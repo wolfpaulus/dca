@@ -48,6 +48,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the docker Docker image / test run it / publish the image
         run: |
+          docker buildx create --name mybuilder
+          docker buildx use mybuilder
           docker buildx build --platform linux/amd64,linux/arm64 --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker run ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest /dca/healthcheck.sh
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
