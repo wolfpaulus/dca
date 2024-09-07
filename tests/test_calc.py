@@ -3,41 +3,41 @@ Test the data module.
 Author: Wolf Paulus (wolf@paulus.com)
 """
 
-from calc import csv_to_dataframe, analyze
+from calc import json_to_dataframe, analyze
+from json import load
 from pandas import to_datetime
 import pytest
 
 
 @pytest.fixture()
-def csv():
-    with open("tests/net.cvs", "r") as f:
-        data_string = f.read()
-    return data_string
+def data():
+    with open("tests/net.json", "r") as f:
+        data_dict = load(f)
+    return data_dict
 
 
-def test_data(csv):
-    assert len(csv)
+def test_data(data):
+    assert len(data)
 
 
-def test_cvs_to_dataframe(csv):
+def test_json_to_dataframe(data):
     """
         converting a staticly stored csv file and pooking around a little
     """
-    df = csv_to_dataframe(csv)
+    df = json_to_dataframe(data)
     assert len(df)
-    assert df["Date"].dtype == "object"
-    assert df["Adj Close"].dtype == "float64"
     assert len(df.columns) == 2
-    rows = len(df)
-    lines = csv.count("\n")
-    assert rows == lines
+    records = data.get("data").get("totalRecords")
+    assert records == len(df.index)
 
 
-def test_analyze(csv):
-    df = analyze(csv_to_dataframe(csv))
+def test_analyze(data):
+    df = analyze(json_to_dataframe(data))
+    assert df["date"].dtype == "object"
+    assert df["close"].dtype == "float64"
     # was there a trade happening every week?
     # distance between days should be less than 13
-    df["d1"] = to_datetime(df["Date"])
+    df["d1"] = to_datetime(df["date"])
     df["d0"] = df["d1"].shift(1)
     df["delta"] = df["d1"] - df["d0"]
     print(df["delta"].max().days)

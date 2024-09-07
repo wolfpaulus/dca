@@ -4,7 +4,7 @@
 """
 import streamlit as st
 from log import logger
-from calc import download_data, csv_to_dataframe, analyze
+from calc import download_data, json_to_dataframe, analyze
 
 
 def ui(default_ticker: str) -> None:
@@ -35,18 +35,18 @@ def ui(default_ticker: str) -> None:
         historical stock market data, provided by Yahoo Finance.
         """
     )
-    ok, csv = download_data(ticker)
+    ok, data = download_data(ticker)
     if not ok:
-        st.error(f"{csv} : {ticker}", icon="💣")
+        st.error(f"{data} : {ticker}", icon="💣")
     else:
-        df = analyze(csv_to_dataframe(csv))
+        df = analyze(json_to_dataframe(data))
         st.caption(f"If you had bought share of {ticker} every week ...")
         st.dataframe(df[:])
         st.caption("Money invested and investment value over time:")
         st.line_chart(
-            df, x="Date", y=["Invested FQ", "Value FQ", "Invested DCA", "Value DCA"]
-        )
-        row = df[:].iloc[-1]
+            df, x="date", y=[
+                "Invested FQ", "Value FQ", "Invested DCA", "Value DCA"])
+        row = df.iloc[-1]
         try:
             with open("src/result.md", "r") as f:
                 # injecting the result into the markdown file
@@ -80,7 +80,7 @@ def ui(default_ticker: str) -> None:
         st.write(
             """
             This program is for educational purposes only and does not constitute investment advice.\n
-            Version 1.1 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
+            Version 1.2 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
             """
         )
 

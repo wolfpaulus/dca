@@ -16,11 +16,43 @@ This Python program simulates both investment strategies using historical stock 
 
 While the necessary calculations could be implemented with Python's built-in data types (like lists and dictionaries), we opted to use **pandas** for its ease of use with time series data and integration with the CSV format, which is the format provided by Yahoo Finance.
 
+### Changing providers from Yahoo Finance to Nasdaq
+Since September of 2024, historical stock data is now only available to their Premium-Gold customers (billed $479.40 yearly) for now Nasdaq still provides that information freely, using the JSON format. E.g.:
+
+```json
+{
+  "data": {
+    "symbol": "NET",
+    "totalRecords": 1254,
+    "tradesTable": {
+      "asOf": null,
+      "headers": {
+        "date": "Date",
+        "close": "Close/Last",
+        "volume": "Volume",
+        "open": "Open",
+        "high": "High",
+        "low": "Low"
+      },
+      "rows": [
+        {
+          "date": "09/06/2024",
+          "close": "$76.05",
+          "volume": "1,927,634",
+          "open": "$78.64",
+          "high": "$79.21",
+          "low": "$75.71"
+        }
+      ]
+    }       
+  }
+}
+```
 ### Data Handling
 
 The user inputs a stock or fund ticker symbol (e.g., 'AAPL' for Apple Inc.), and the program retrieves the last five years of trading data for that stock. The data is then filtered to include only the first trading day of each week, as the simulation assumes weekly investments. The relevant columns from the dataset are:
-- `Date`
-- `Adj Close` (Adjusted Close)
+- `date`
+- `close`
 
 These columns are used to calculate the investment values.
 

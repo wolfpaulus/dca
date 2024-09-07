@@ -3,70 +3,65 @@
     Wolf Paulus
 """
 from urllib.request import Request, urlopen
-from datetime import date
-from json import loads, dump
+from datetime import datetime, timedelta
+from calendar import timegm
 from io import StringIO
-from pandas import read_csv, DataFrame, to_datetime, read_json, to_datetime
+from pandas import read_csv, DataFrame, to_datetime
 from log import logger
-from requests import get
 
 
-def download_data(ticker: str) -> tuple[bool, dict | str]:
+def download_data(ticker: str) -> tuple[bool, str]:
     """
-    Download historic data for a given stock ticker symbol from Nasdaq.com.
-    Details about it: https://www.nasdaq.com/market-activity/quotes/historical
+    Download historic data for a given stock ticker symbol from Yahoo Finance.
+    Details about Yahoo Finance data: https://help.yahoo.com/kb/SLN2311.html
 
     Args:
         ticker: str - Stock ticker symbol, e.g., 'AAPL' for Apple Inc.
 
     Returns:
         bool - True if the data was downloaded successfully, False otherwise.
-        dict | str - dictionary, 1st item contains the header, or an error message.
+        str - comma-separated values (CSV) string with the stock data, or an error message.
     """
     ticker = ticker.upper()
-    today = date.today()
-    start = str(today.replace(year=today.year - 5))
-    base_url = "https://api.nasdaq.com"
-    path = f"/api/quote/{ticker}/historical?assetclass=stocks&fromdate={start}&limit=9999"
+    today = datetime.now()
+    epoch_from = timegm((today - timedelta(days=5 * 365)).timetuple())
+    epoch_to = timegm(today.timetuple())
+    url = f"https://query1.finance.yahoo.com/v7/finance/download/{ticker}?period1={
+        epoch_from}&period2={epoch_to}&interval=1d&events=history&includeAdjustedClose=true"
+
     try:
         logger.debug(f"Downloading data for ticker: {ticker}")
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "*/*",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "en-US,en;q=0.9",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
+            "User-Agent": "Mozilla/5.0",
         }
-        response = get(base_url + path, headers=headers)
-        if response.status_code == 200:
-            data = response.json()
-            err = data.get("data") is None
-            if not err:
-                return True, data
+        req = Request(url, headers=headers)
+        with urlopen(req, timeout=10) as response:
+            if response.getcode() == 200:
+                return True, response.read().decode("utf-8")
             else:
-                logger.warn(str(data.get("status")))
-                return False, str(data.get("status"))
-        else:
-            logger.warn(f"{response.geterror()} {response.getcode()}")
-            return False, f"{response.geterror()} {response.getcode()}"
+                logger.warn(f"{response.geterror()} {response.getcode()}")
+                return False, f"{response.geterror()} {response.getcode()}"
     except Exception as e:
         logger.error(f"This error occurred: {e} : {ticker}")
         return False, f"An error occurred: {e}"
 
 
-def json_to_dataframe(data: dict) -> DataFrame:
+def csv_to_dataframe(csv: str) -> DataFrame:
     """
-    Converts a dict to a DataFrame, also removing not needed columns.
-    Original columns:  date, close, volume, open, high, low
-    Remaining columns: date, close
+    Convert a CSV string to a DataFrame, also removing not needed columns.
+    Original columns: Date, Open, High, Low, Close, Adj Close, Volume
+    Remaining columns: Date, Adj Close
     Args:
-        data: dict, important info at data/tradesTable/rows
+        csv: str - The CSV string.
 
     Returns:
         DataFrame - The DataFrame.
     """
-    r = data.get("data", {}).get("tradesTable", {}).get("rows", [])
-    return DataFrame(r).drop(["volume", "open", "high", "low"], axis="columns")
+    return read_csv(StringIO(csv)).drop(
+        ["Open", "High", "Low", "Close", "Volume"], axis="columns"
+    )
 
 
 def analyze(df: DataFrame) -> DataFrame:
@@ -82,32 +77,28 @@ def analyze(df: DataFrame) -> DataFrame:
         DataFrame - The processed DataFrame with additional columns:
         Shares_FS, Paid_FS, Value_FS, Shares_FA, Paid_FA, Value_FA
     """
-    # Reverse the dataframe since, we are receiving it newest 1st
     # Insert a 'Weekday' column, to find the first trading day of each week
-    # Remove '$' symbol from closing price and convert to float
-    df = df.iloc[::-1]
-    df["Weekday"] = to_datetime(df["date"]).dt.weekday
+    df["Weekday"] = to_datetime(df["Date"]).dt.weekday
     df = df[(df.shift(1).Weekday > df.Weekday)]
-    df["date"] = to_datetime(df["date"]).dt.strftime('%Y-%m-%d')
-    df["close"] = df["close"].replace("\\$", "", regex=True).astype(float)
+
     # Strategy: Fixed share number (1 share per week)
     # Shares FQ: Shares bought with a fixed quantity
     # Invested FQ: Money invested with a fixed quantity
     # Value FQ: Value of the investment with a fixed quantity
     df["Shares FQ"] = 1
     df["Shares FQ"] = df["Shares FQ"].cumsum()
-    df["Invested FQ"] = df["close"].cumsum()
-    df["Value FQ"] = df["Shares FQ"] * df["close"]
+    df["Invested FQ"] = df["Adj Close"].cumsum()
+    df["Value FQ"] = df["Shares FQ"] * df["Adj Close"]
 
     # Strategy: Fixed weekly amount
     # Shares DCA: Shares bought with a fixed weekly amount
     # Invested DCA: Money invested with a fixed weekly amount
     # Value DCA: Value of the investment with a fixed weekly amount
     wa = df.iloc[-1]["Invested FQ"] / df.iloc[-1]["Shares FQ"]  # Weekly amount
-    df["Shares DCA"] = (wa / df["close"]).cumsum()
+    df["Shares DCA"] = (wa / df["Adj Close"]).cumsum()
     df["Invested DCA"] = wa
     df["Invested DCA"] = df["Invested DCA"].cumsum()
-    df["Value DCA"] = df["Shares DCA"] * df["close"]
+    df["Value DCA"] = df["Shares DCA"] * df["Adj Close"]
 
     # Clean up the DataFrame
     df = df.drop(["Weekday"], axis="columns")
@@ -116,12 +107,12 @@ def analyze(df: DataFrame) -> DataFrame:
 
 
 if __name__ == "__main__":
-    ticker = "NET"
+    ticker = "AAPL"
     ok, data = download_data(ticker)
-    with open("tests/net.json", "w") as f:
-        dump(data, f)
+    with open("tests/net.cvs", "w") as f:
+        f.write(data)
     if ok:
-        df = analyze(json_to_dataframe(data))
+        df = analyze(csv_to_dataframe(data))
         row = df.iloc[-1]
         print(df)
         with open("src/result.md", "r") as f:
