@@ -83,4 +83,4 @@ Finally, a line chart is generated to show the performance of both strategies ov
 ## Deployment / CICD
 
 The app is currently deployed on [Azure](https://webapp-rh5dsxbm77scq.azurewebsites.net) as well as on a [linux server](https://dca.techcasitaproductions.com) as a docker container.
-The [instructions directory](./instructions/action.png) contains more details about the deployment workflows.
+The [instructions directory](./instructions/) contains more details about the deployment workflows.

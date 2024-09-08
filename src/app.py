@@ -80,7 +80,7 @@ def ui(default_ticker: str) -> None:
         st.write(
             """
             This program is for educational purposes only and does not constitute investment advice.\n
-            Version 1.3 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
+            Version 1.3.1 © 2024 [Wolf Paulus](https://wolfpaulus.com). All Rights Reserved.
             """
         )
 
