@@ -61,7 +61,7 @@ These columns are used to calculate the investment values.
 In this strategy, the user buys a fixed number of shares each week. The following columns are added to the dataset:
 - **`Shares FQ`**: The cumulative number of shares purchased, incremented by 1 each week.
 - **`Invested FQ`**: The cumulative amount invested, which is the sum of the weekly "Adj Close" prices for each share purchased.
-- **`Value FQ`**: The value of the acquired shares at any given time, calculated as `Shares SQ * Adj Close`.
+- **`Value FQ`**: The value of the acquired shares at any given time, calculated as `Shares SQ * close`.
 
 At the end of the simulation, the last row provides:
 - **Total Investment (`Invested FQ`)**: The total amount of money invested over the five years.
@@ -72,7 +72,7 @@ At the end of the simulation, the last row provides:
 For DCA, the program calculates the total amount invested in the SQ strategy (`Invested SQ`) and divides it by the number of trading weeks, resulting in the weekly investment amount (`wa`). The following columns are added:
 - **`Shares DCA`**: The cumulative number of shares purchased, calculated by dividing the weekly investment (`wa`) by the "Adj Close" price.
 - **`Invested DCA`**: The cumulative amount invested, which is the sum of the weekly investments (`wa`).
-- **`Value DCA`**: The value of the acquired shares at any given time, calculated as `Shares DCA * Adj Close`.
+- **`Value DCA`**: The value of the acquired shares at any given time, calculated as `Shares DCA * close`.
 
 ## Visualization
 

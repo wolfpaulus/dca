@@ -5,7 +5,7 @@
 # For more information see: https://docs.github.com/en/actions/guides/publishing-docker-images
 # 
 # This workflow creates a Multi-platform image with GitHub Actions, for linux/amd64,linux/arm64/v8
-# I found this the following resources helpful:
+# The following resources were very helpful:
 # https://collabnix.com/error-multiple-platforms-feature-is-currently-not-supported-for-docker-driver/
 # https://depot.dev/blog/multi-platform-docker-images-in-github-actions
 #
