@@ -2,11 +2,9 @@
     Using Pandas to compare Investing Strategies
     Wolf Paulus
 """
-from urllib.request import Request, urlopen
 from datetime import date
-from json import loads, dump
-from io import StringIO
-from pandas import read_csv, DataFrame, to_datetime, read_json, to_datetime
+from json import dump
+from pandas import DataFrame, to_datetime, to_datetime
 from log import logger
 from requests import get
 
@@ -35,19 +33,18 @@ def download_data(ticker: str) -> tuple[bool, dict | str]:
             "Accept": "*/*",
             "Accept-Encoding": "gzip, deflate, br, zstd",
             "Accept-Language": "en-US,en;q=0.9",
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15"
+            "User-Agent": "Mozilla/5.0"
         }
         response = get(base_url + path, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            err = data.get("data") is None
-            if not err:
+            if data.get("data"):
                 return True, data
             else:
-                logger.warn(str(data.get("status")))
+                logger.warning(str(data.get("status")))
                 return False, str(data.get("status"))
         else:
-            logger.warn(f"{response.geterror()} {response.getcode()}")
+            logger.warning(f"{response.geterror()} {response.getcode()}")
             return False, f"{response.geterror()} {response.getcode()}"
     except Exception as e:
         logger.error(f"This error occurred: {e} : {ticker}")
