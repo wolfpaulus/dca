@@ -77,6 +77,8 @@ def ui(default_ticker: str) -> None:
             logger.error(f"Error: {err}")
             st.error(f"Error: {err}")
         st.divider()
+        link = '<a href="https://github.com/wolfpaulus/dca" target="_blank">Source Code</a>'
+        st.write(f'<i class="fa-brands fa-github"> {link} </i>', unsafe_allow_html=True)
         st.write(
             """
             This program is for educational purposes only and does not constitute investment advice.\n
