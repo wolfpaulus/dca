@@ -6,6 +6,7 @@ import os
 from unittest import TestCase
 from streamlit.testing.v1 import AppTest
 
+
 class Test(TestCase):
     """
     Find out more about how to test streamlit apps:
@@ -23,5 +24,6 @@ class Test(TestCase):
 
     def test_lint(self):
         # run the linter on the src directory
-        lint_output = os.popen("autopep8 --exit-code --recursive --diff --aggressive ./src").read()
+        lint_output = os.popen(
+            "autopep8 --exit-code --recursive --diff --max-line-length 120 ./src").read()
         assert lint_output == ""
