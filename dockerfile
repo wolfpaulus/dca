@@ -1,5 +1,5 @@
 # Dokerfile to create the container image for the DCA app
-FROM python:3.12
+FROM python:3.14-slim
 LABEL maintainer="Wolf Paulus <wolf@paulus.com>"
 
 RUN apt-get update && \
@@ -19,4 +19,4 @@ EXPOSE 8000
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/dca
-CMD ["python3.12",  "-m", "streamlit", "run", "--server.port", "8000", "src/app.py"]
+CMD ["python3.14",  "-m", "streamlit", "run", "--server.port", "8000", "src/app.py"]
