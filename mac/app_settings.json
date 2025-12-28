@@ -1,0 +1,5 @@
+{
+  "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
+  "AzureWebJobsDisableHomepage": true,
+  "AzureFunctionsJobHost__extensions__http__routePrefix" : ""
+}

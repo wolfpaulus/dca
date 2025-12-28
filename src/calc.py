@@ -4,12 +4,13 @@
 """
 from datetime import date
 from json import dump
+from typing import Union
 from pandas import DataFrame, to_datetime, to_datetime
 from log import logger
 from requests import get
 
 
-def download_data(ticker: str) -> tuple[bool, dict | str]:
+def download_data(ticker: str) -> tuple[bool, Union[dict, str]]:
     """
     Download historic data for a given stock ticker symbol from Nasdaq.com.
     Details about it: https://www.nasdaq.com/market-activity/quotes/historical
