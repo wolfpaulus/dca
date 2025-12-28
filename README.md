@@ -1,7 +1,6 @@
 # Using Pandas and Streamlit to compare Investing Strategies
 
 [![run-tests](https://github.com/wolfpaulus/dca/actions/workflows/python-test.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/python-test.yml)
-[![azure-deploy](https://github.com/wolfpaulus/dca/actions/workflows/azure-deploy.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/azure-deploy.yml)
 [![docker-publish](https://github.com/wolfpaulus/dca/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/docker-publish.yml)
 [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m797374860-3b534eea99094adbd62aa357)](https://dca.erau.cloud)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
@@ -44,7 +43,7 @@ Since September of 2024, historical stock data is now only available to their Pr
           "low": "$75.71"
         }
       ]
-    }       
+    }
   }
 }
 ```
@@ -82,5 +81,5 @@ Finally, a line chart is generated to show the performance of both strategies ov
 
 ## Deployment / CICD
 
-The app is currently deployed on [Azure](https://webapp-rh5dsxbm77scq.azurewebsites.net) as well as on a [linux server](https://dca.techcasitaproductions.com) as a docker container.
+The app is currently deployed on a [linux server](https://dca.wolfpaulus.com) as a docker container.
 The [instructions directory](./instructions/) contains more details about the deployment workflows.
