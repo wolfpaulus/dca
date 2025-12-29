@@ -2,7 +2,7 @@
 
 [![run-tests](https://github.com/wolfpaulus/dca/actions/workflows/python-test.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/python-test.yml)
 [![docker-publish](https://github.com/wolfpaulus/dca/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/wolfpaulus/dca/actions/workflows/docker-publish.yml)
-[![Uptime Robot status](https://img.shields.io/uptimerobot/status/m797374860-3b534eea99094adbd62aa357)](https://dca.erau.cloud)
+[![Uptime Robot status](https://img.shields.io/uptimerobot/status/m797374860-3b534eea99094adbd62aa357)](https://dca.wolfpaulus.com)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## Overview
